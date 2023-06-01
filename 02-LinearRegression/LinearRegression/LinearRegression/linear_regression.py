@@ -32,6 +32,8 @@ class LinearRegression:
         
         num_features = self.data.shape[1]
         # 2*1 维数组
+        # 初始化 这个可以自定义或者随机
+        # θ0为0，θ1为1
         self.theta = np.zeros((num_features,1))
         
     def train(self,alpha,num_iterations = 500):
@@ -51,7 +53,7 @@ class LinearRegression:
         
     def gradient_descent(self,alpha,num_iterations):
         """
-            实际迭代模块，会迭代num_iterations次
+            梯度下降  实际迭代模块，会迭代num_iterations次
         Args:
             alpha (): 学习率
             num_iterations (): 迭代次数
@@ -78,9 +80,11 @@ class LinearRegression:
         num_examples = self.data.shape[0]
         # 预测值
         prediction = LinearRegression.hypothesis(self.data,self.theta)
-        # 预测值-真实值 梯度下降公式
+        # 预测值-真实值 N * 1 矩阵
         delta = prediction - self.labels
         theta = self.theta
+        # 梯度下降公式
+        see = alpha * (1 / num_examples) * (np.dot(delta.T, self.data)).T
         theta = theta - alpha*(1/num_examples)*(np.dot(delta.T,self.data)).T
         self.theta = theta
         
@@ -106,8 +110,12 @@ class LinearRegression:
     def hypothesis(data,theta):
         """
             预测值
+        Args:
+            data (): 数据
+            theta (): θ
+
         Returns:
-            object: 
+
         """
         # data      1.00    1.27
         # 124*2     1.00    1.18
@@ -116,6 +124,7 @@ class LinearRegression:
         #  2*1      0
         # dot函数为numpy库下的一个函数，主要用于矩阵的乘法运算，其中包括：向量内积、多维矩阵乘法、矩阵与向量的乘法。
         # 参考https://zhuanlan.zhihu.com/p/353753915
+        # 返回一个N * 1 的矩阵
         predictions = np.dot(data,theta)
         return predictions
         
